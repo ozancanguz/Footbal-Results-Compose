@@ -4,8 +4,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.footbal_results_compose.viewmodels.ScoreScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -13,15 +17,19 @@ import dagger.hilt.android.AndroidEntryPoint
 fun ScoreScreen(navController: NavController) {
 
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        Button(onClick = {
-            navController.navigate(Screen.DetailsScreen.route)
+    // init viewmodel
 
-        }) {
+    val scoreScreenViewModel:ScoreScreenViewModel= hiltViewModel()
 
-        }
+    // collect state
+    val scoreList by scoreScreenViewModel.scoreList.collectAsState()
 
-    }
+    // call viewModel
+    scoreScreenViewModel.getScoreList()
+
+    ScoreList(scoreList = scoreList.result)
+
+
 
 
 }
